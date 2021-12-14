@@ -1,0 +1,35 @@
+{
+  "name": "lottery-contract",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@nomiclabs/hardhat-etherscan": "^2.1.8",
+    "@nomiclabs/hardhat-waffle": "^2.0.1",
+    "@typechain/ethers-v5": "^8.0.5",
+    "@typechain/hardhat": "^3.0.0",
+    "@types/chai": "^4.3.0",
+    "@types/chai-as-promised": "^7.1.4",
+    "@types/mocha": "^9.0.0",
+    "@types/node": "^16.11.12",
+    "chai": "^4.3.4",
+    "ethereum-waffle": "^3.4.0",
+    "ethers": "^5.5.2",
+    "hardhat": "^2.7.1",
+    "hardhat-typechain": "^0.3.5",
+    "mocha": "^9.1.3",
+    "solidity-coverage": "^0.7.17",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.3"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.4.1",
+    "chai-as-promised": "^7.1.1",
+    "hardhat-watcher": "^2.1.1",
+    "typechain": "^6.0.5"
+  }
+}
