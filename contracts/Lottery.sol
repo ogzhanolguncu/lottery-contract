@@ -1,19 +1,23 @@
 //SPDX-License-Identifier: UNLICENSED
 
 pragma solidity >=0.8.4;
-import "hardhat/console.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 contract Lottery is Ownable {
-	uint256 public constant MIN_DEPOSIT = 0.1 ether;
+	using SafeMath for uint256;
+
+	uint256 public constant MIN_DEPOSIT = 1 ether;
 
 	address payable[] public players;
 
+	constructor() {
+		players.push(payable(msg.sender));
+	}
+
 	receive() external payable {
-		require(
-			msg.value == MIN_DEPOSIT,
-			"Minimum entrance fee is 0.1 ethers!"
-		);
+		require(msg.value == MIN_DEPOSIT, "Minimum entrance fee is 1 ethers!");
+		require(msg.sender != owner(), "Owner cannot participate!");
 		players.push(payable(msg.sender));
 	}
 
@@ -38,17 +42,25 @@ contract Lottery is Ownable {
 			);
 	}
 
-	function pickWinner() public onlyOwner returns (address player) {
+	function pickWinner() public minimumTenPlayers returns (address player) {
 		require(players.length >= 3);
 
 		uint256 r = random();
 		address payable winner;
-
+		uint256 tenPercentCut = getBalance().div(10);
 		uint256 index = r % players.length;
-		winner = players[index];
 
+		winner = players[index];
+		payable(owner()).transfer(tenPercentCut);
 		winner.transfer(getBalance());
 
 		return winner;
+	}
+
+	modifier minimumTenPlayers() {
+		if (playersCount() < 10) {
+			require(msg.sender == owner(), "You are not the Owner!");
+		}
+		_;
 	}
 }

@@ -20,7 +20,6 @@ import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 export interface LotteryInterface extends utils.Interface {
   functions: {
     "MIN_DEPOSIT()": FunctionFragment;
-    "c_0xf2becb7d(bytes32)": FunctionFragment;
     "getBalance()": FunctionFragment;
     "owner()": FunctionFragment;
     "pickWinner()": FunctionFragment;
@@ -34,10 +33,6 @@ export interface LotteryInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "MIN_DEPOSIT",
     values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "c_0xf2becb7d",
-    values: [BytesLike]
   ): string;
   encodeFunctionData(
     functionFragment: "getBalance",
@@ -68,10 +63,6 @@ export interface LotteryInterface extends utils.Interface {
 
   decodeFunctionResult(
     functionFragment: "MIN_DEPOSIT",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "c_0xf2becb7d",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "getBalance", data: BytesLike): Result;
@@ -136,11 +127,6 @@ export interface Lottery extends BaseContract {
   functions: {
     MIN_DEPOSIT(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    c_0xf2becb7d(
-      c__0xf2becb7d: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<[void]>;
-
     getBalance(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     owner(overrides?: CallOverrides): Promise<[string]>;
@@ -167,11 +153,6 @@ export interface Lottery extends BaseContract {
 
   MIN_DEPOSIT(overrides?: CallOverrides): Promise<BigNumber>;
 
-  c_0xf2becb7d(
-    c__0xf2becb7d: BytesLike,
-    overrides?: CallOverrides
-  ): Promise<void>;
-
   getBalance(overrides?: CallOverrides): Promise<BigNumber>;
 
   owner(overrides?: CallOverrides): Promise<string>;
@@ -197,11 +178,6 @@ export interface Lottery extends BaseContract {
 
   callStatic: {
     MIN_DEPOSIT(overrides?: CallOverrides): Promise<BigNumber>;
-
-    c_0xf2becb7d(
-      c__0xf2becb7d: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<void>;
 
     getBalance(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -237,11 +213,6 @@ export interface Lottery extends BaseContract {
   estimateGas: {
     MIN_DEPOSIT(overrides?: CallOverrides): Promise<BigNumber>;
 
-    c_0xf2becb7d(
-      c__0xf2becb7d: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     getBalance(overrides?: CallOverrides): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<BigNumber>;
@@ -268,11 +239,6 @@ export interface Lottery extends BaseContract {
 
   populateTransaction: {
     MIN_DEPOSIT(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    c_0xf2becb7d(
-      c__0xf2becb7d: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
 
     getBalance(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
