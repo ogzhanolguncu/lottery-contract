@@ -34,6 +34,7 @@
   "dependencies": {
     "@openzeppelin/contracts": "^4.4.1",
     "chai-as-promised": "^7.1.1",
+    "dotenv": "^10.0.0",
     "hardhat-watcher": "^2.1.1",
     "typechain": "^6.0.5"
   }

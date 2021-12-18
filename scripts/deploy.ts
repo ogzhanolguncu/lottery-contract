@@ -1,9 +1,10 @@
 import { ethers } from "hardhat";
-
+import { Lottery } from "../typechain-types";
+//CONTRACT ADDRESS 0x3aeE91891A66D4E952ae4eAc110Ff51A000ce14f
 async function main() {
-  const factory = await ethers.getContractFactory("");
+  const Lottery = await ethers.getContractFactory("Lottery");
 
-  let contract = await factory.deploy("");
+  let contract = (await Lottery.deploy()) as Lottery;
 
   console.log(
     `The address the Contract WILL have once mined: ${contract.address}`
@@ -18,6 +19,11 @@ async function main() {
   );
   await contract.deployed();
   console.log("Mined!");
+
+  console.log(
+    "Current balance of contract",
+    await contract.functions.getBalance()
+  );
 }
 
 main()

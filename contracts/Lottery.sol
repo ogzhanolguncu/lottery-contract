@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 contract Lottery is Ownable {
 	using SafeMath for uint256;
 
-	uint256 public constant MIN_DEPOSIT = 1 ether;
+	uint256 public constant MIN_DEPOSIT = 0.1 ether;
 
 	address payable[] public players;
 
@@ -16,7 +16,7 @@ contract Lottery is Ownable {
 	}
 
 	receive() external payable {
-		require(msg.value == MIN_DEPOSIT, "Minimum entrance fee is 1 ethers!");
+		require(msg.value == MIN_DEPOSIT, "Entrance fee is 0.1 ethers!");
 		require(msg.sender != owner(), "Owner cannot participate!");
 		players.push(payable(msg.sender));
 	}
@@ -43,7 +43,7 @@ contract Lottery is Ownable {
 	}
 
 	function pickWinner() public minimumTenPlayers returns (address player) {
-		require(players.length >= 3);
+		require(players.length >= 3, "At least 3 players needed!");
 
 		uint256 r = random();
 		address payable winner;
@@ -53,8 +53,13 @@ contract Lottery is Ownable {
 		winner = players[index];
 		payable(owner()).transfer(tenPercentCut);
 		winner.transfer(getBalance());
+		resetPlayers();
 
 		return winner;
+	}
+
+	function resetPlayers() private {
+		delete players;
 	}
 
 	modifier minimumTenPlayers() {

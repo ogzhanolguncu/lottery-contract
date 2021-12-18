@@ -29,14 +29,16 @@ describe("Greeter Contract", () => {
   it("should send ether to contract", async () => {
     const signers = await ethers.getSigners();
 
-    const etherAmount = "1";
+    const etherAmount = "0.1";
     const tx = {
       to: lottery.address,
       value: ethers.utils.parseEther(etherAmount),
     };
 
     await lottery.connect(signers[1]).signer.sendTransaction(tx);
-    expect(ethers.utils.formatEther(await lottery.getBalance())).to.eq("1.0");
+    expect(ethers.utils.formatEther(await lottery.getBalance())).to.eq(
+      etherAmount
+    );
   });
 
   it("should send different amount of ether and fail ", async () => {
@@ -47,7 +49,7 @@ describe("Greeter Contract", () => {
     };
 
     await expect(lottery.signer.sendTransaction(tx)).to.be.revertedWith(
-      "Minimum entrance fee is 1 ethers!"
+      "Entrance fee is 0.1 ethers!"
     );
   });
 
@@ -66,7 +68,7 @@ describe("Greeter Contract", () => {
   it("should return players count as 2 after tx", async () => {
     const signers = await ethers.getSigners();
 
-    const etherAmount = "1";
+    const etherAmount = "0.1";
     const tx = {
       to: lottery.address,
       value: ethers.utils.parseEther(etherAmount),
@@ -78,7 +80,7 @@ describe("Greeter Contract", () => {
   it("should return 0.5 ether after transactions", async () => {
     const signers = await ethers.getSigners();
 
-    const etherAmount = "1";
+    const etherAmount = "0.1";
     const tx = {
       to: lottery.address,
       value: ethers.utils.parseEther(etherAmount),
@@ -88,13 +90,13 @@ describe("Greeter Contract", () => {
       await lottery.connect(signer).signer.sendTransaction(tx);
     }
 
-    expect(ethers.utils.formatEther(await lottery.getBalance())).to.eq("5.0");
+    expect(ethers.utils.formatEther(await lottery.getBalance())).to.eq("0.5");
   });
 
   it("should return 0.0 ether after winner picked", async () => {
     const signers = await ethers.getSigners();
 
-    const etherAmount = "1";
+    const etherAmount = "0.1";
     const tx = {
       to: lottery.address,
       value: ethers.utils.parseEther(etherAmount),
@@ -110,7 +112,7 @@ describe("Greeter Contract", () => {
   });
 
   it("should prevent owner to participate", async () => {
-    const etherAmount = "1";
+    const etherAmount = "0.1";
     const tx = {
       to: lottery.address,
       value: ethers.utils.parseEther(etherAmount),
@@ -129,7 +131,7 @@ describe("Greeter Contract", () => {
   it("should be reverted if players count less than 10 and sender not the owner", async () => {
     const signers = await ethers.getSigners();
 
-    const etherAmount = "1";
+    const etherAmount = "0.1";
     const tx = {
       to: lottery.address,
       value: ethers.utils.parseEther(etherAmount),
@@ -152,7 +154,7 @@ describe("Greeter Contract", () => {
     const ownersBalanceBeforeTx = ethers.utils.formatEther(
       await signers[0].getBalance()
     );
-    const etherAmount = "1";
+    const etherAmount = "0.1";
     const tx = {
       to: lottery.address,
       value: ethers.utils.parseEther(etherAmount),
@@ -167,5 +169,23 @@ describe("Greeter Contract", () => {
     expect(
       Number(ethers.utils.formatEther(await signers[0].getBalance()))
     ).to.greaterThan(Number(ownersBalanceBeforeTx));
+  });
+
+  it("should reset players list after winner is picked", async () => {
+    const signers = await ethers.getSigners();
+
+    const etherAmount = "0.1";
+    const tx = {
+      to: lottery.address,
+      value: ethers.utils.parseEther(etherAmount),
+    };
+
+    for (const signer of signers.slice(1, 6)) {
+      await lottery.connect(signer).signer.sendTransaction(tx);
+    }
+
+    await lottery.connect(signers[0]).pickWinner();
+
+    expect(await lottery.playersCount()).to.eq(0);
   });
 });
