@@ -10,6 +10,7 @@ contract Lottery is Ownable {
 	uint256 public constant MIN_DEPOSIT = 0.1 ether;
 
 	address payable[] public players;
+	address public lastWinner;
 
 	constructor() {
 		players.push(payable(msg.sender));
@@ -53,6 +54,7 @@ contract Lottery is Ownable {
 		winner = players[index];
 		payable(owner()).transfer(tenPercentCut);
 		winner.transfer(getBalance());
+		lastWinner = winner;
 		resetPlayers();
 
 		return winner;
